@@ -14,7 +14,7 @@ def func(x):
                 y += 2 * x[i] * x[j]
     return y
 
-def fGrad(x, f, step=0.001):
+def fGrad(x, f, step=np.sqrt(np.finfo(float).eps)):
     grad = np.zeros(x.shape)
     for i in range(x.shape[0]):
         partDx = deepcopy(x)
@@ -23,12 +23,15 @@ def fGrad(x, f, step=0.001):
         grad[i] = grad[i] / step
     return grad
 
-def gradStep(x,f, lr=0.001):
+def gradStep(x,f, lr=1.0):
     grad = fGrad(x, f)
     nextX = x - lr * x * (grad / np.linalg.norm(grad))
     return nextX
 
-eps = 0.00000001
+
+print(np.finfo(float).eps)
+print(np.sqrt(np.finfo(float).eps))
+eps = 0.001
 x = np.random.random(5)
 prevX = np.random.rand(x.shape[0])
 while abs(func(x) - func(prevX)) > eps:
